@@ -1,4 +1,8 @@
 export function Main({onEditAvatar, onEditProfile, onAddPlace}) { 
+    const [userName, setUserName] = React.useState
+        , userDescription 
+        userAvatar]
+
     return (
         <main className="content">
             <section className="profile">
