@@ -1,7 +1,22 @@
+import React from 'react';
+import {api} from '../utils/Api.js';
+
 export function Main({onEditAvatar, onEditProfile, onAddPlace}) { 
-    const [userName, setUserName] = React.useState
-        , userDescription 
-        userAvatar]
+    const [userName, setUserName] = React.useState();
+    const [userDescription, setUserDescription] = React.useState();
+    const [userAvatar, setUserAvatar] = React.useState();
+
+    React.useEffect(() => {
+        api.getUserInfo()
+            .then((res) => {
+                setUserAvatar(res.avatar);
+                setUserName(res.name);
+                setUserDescription(res.about);
+            })
+            .catch((error) => console.log(error))
+    });
+    
+
 
     return (
         <main className="content">
@@ -9,14 +24,14 @@ export function Main({onEditAvatar, onEditProfile, onAddPlace}) {
             <div className="profile__container">
                 <div className="profile__avatar-container">
                 <div className="profile__update-avatar" onClick = {onEditAvatar}></div>
-                <img  alt="фотография в профиле" className="profile__avatar" name="avatar"/>
+                <img src={userAvatar} alt="фотография в профиле" className="profile__avatar" name="avatar"/>
                 </div>
                 <div className="profile__info">
                 <div className="profile__title-container">
-                    <h1 className="profile__title">Жак-Ив Кусто</h1>
+                    <h1 className="profile__title">{userName}</h1>
                     <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick = {onEditProfile}></button>
                 </div>
-                <p className="profile__subtitle">Исследователь океана</p>
+                <p className="profile__subtitle">{userDescription}</p>
                 </div>
             </div>
             <button className="profile__add-button profile__add-button-link" type="button" aria-label="Добавить" onClick = {onAddPlace}></button>
