@@ -3,9 +3,9 @@ import {api} from '../utils/Api.js';
 import {Card} from './Card.js';
 
 export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) { 
-    const [userName, setUserName] = React.useState();
-    const [userDescription, setUserDescription] = React.useState();
-    const [userAvatar, setUserAvatar] = React.useState();
+    const [userName, setUserName] = React.useState("");
+    const [userDescription, setUserDescription] = React.useState("");
+    const [userAvatar, setUserAvatar] = React.useState("");
     const [cards, setCards] = React.useState([]);
 
     const cardsElements = cards.map((card) => (
@@ -23,10 +23,8 @@ export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
                 setUserName(res.name);
                 setUserDescription(res.about);
             })
-            .catch((error) => console.log(error));
-    });
-
-    React.useEffect(() => {
+            .catch(console.error);
+    
         api.getInitialCards()
             .then(res => {
                 const cardsFromApi = res.map(item => ({
@@ -38,12 +36,8 @@ export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
                     }));
                 setCards(cardsFromApi);
             })
-            .catch((error) => console.log(error));
+            .catch(console.error);
     }, []);
-
-
-    
-
 
     return (
         <main className="content">

@@ -1,7 +1,7 @@
 export function Footer() {
     return (
         <footer className="footer">
-            <p className="footer__copyright">&COPY; 2020 Mesto Russia</p>
+            <p className="footer__copyright">{new Date().getFullYear()} Mesto Russia</p>
         </footer>
     )
 }

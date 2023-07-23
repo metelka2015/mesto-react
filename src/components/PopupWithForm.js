@@ -1,13 +1,13 @@
-export function PopupWithForm(props) {
+export function PopupWithForm({name, title, textButton, isOpen, onClose, children}) {
     return (
-        <section className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
+        <section className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
               <div className="popup__container">
-                <h2 className="popup__title">{props.title}</h2>
-                <form className={`popup__form popup__form_type_${props.name}`} name={`popup-${props.name}-form`} novalidate>
-                  {props.children}
-                  <button className="popup__submit" type="submit">{props.textButton}</button>
+                <h2 className="popup__title">{title}</h2>
+                <form className={`popup__form popup__form_type_${name}`} name={`popup-${name}-form`}>
+                  {children}
+                  <button className="popup__submit" type="submit">{textButton}</button>
                 </form>
-                <button className="popup__close" type="button" aria-label="Закрыть" onClick={props.onClose}></button>
+                <button className="popup__close" type="button" aria-label="Закрыть" onClick={onClose} />
               </div>
         </section>
     );

@@ -5,7 +5,7 @@ export function Card({card, onCardClick}) {
       } 
 
     return (
-        <li class="element">
+        <li className="element">
             <img src={card.link} alt={card.name} onClick={handleClick} className="element__image" />
             <button className="element__delete-button" type="button" aria-label="Удалить"></button>
             <div className="element__container">

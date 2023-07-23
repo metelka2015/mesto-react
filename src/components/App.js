@@ -48,28 +48,28 @@ function App() {
             <Footer />
             <PopupWithForm name="profile" title="Редактировать профиль" textButton="Сохранить" isOpen={isEditProfileOpen} onClose={closeAllPopups}>
                     <label className="popup__label">
-                      <input id="name" className="popup__input popup__input_type_name" required minlength="2" maxlength="40" name="name" autocomplete="off" placeholder="Имя"/>
+                      <input id="name" className="popup__input popup__input_type_name" name="name" placeholder="Имя"/>
                       <span id="error-name" className="popup__error-message"></span>
                     </label>
                     <label className="popup__label">
-                      <input id="job" className="popup__input popup__input_type_job" required minlength="2" maxlength="200" name="about" autocomplete="off" placeholder="О себе"/>
+                      <input id="job" className="popup__input popup__input_type_job" name="about" placeholder="О себе"/>
                       <span id="error-job" className="popup__error-message"></span>
                     </label>                                                
             </PopupWithForm>
             <PopupWithForm name="place" title="Новое место" textButton="Создать" isOpen={isAddPlaceOpen} onClose={closeAllPopups}>            
                   <label className="popup__label">
-                    <input id="placename" className="popup__input popup__input_type_placename" required minlength="2" maxlength="30" name="placename" placeholder="Название" autocomplete="off"/>
+                    <input id="placename" className="popup__input popup__input_type_placename" name="placename" placeholder="Название" />
                     <span id="error-placename" className="popup__error-message"></span>
                   </label>
                   <label className="popup__label">
-                    <input id="placelink" type="url" className="popup__input popup__input_type_placelink" required name="placelink" placeholder="Ссылка на картинку" autocomplete="off"/>
+                    <input id="placelink" type="url" className="popup__input popup__input_type_placelink" name="placelink" placeholder="Ссылка на картинку" />
                     <span id="error-placelink" className="popup__error-message"></span>
                   </label>                  
             </PopupWithForm>  
             <PopupWithForm name="delete" title="Вы уверены?" textButton="Да" onClose={closeAllPopups}/>  
             <PopupWithForm name="avatar" title="Обновить аватар" textButton="Сохранить" isOpen={isEditAvatarOpen} onClose={closeAllPopups}> 
                     <label className="popup__label">
-                      <input id="avatarlink" type="url" className="popup__input popup__input_type_placelink" required name="avatar" placeholder="Ссылка на картинку" autocomplete="off"/>
+                      <input id="avatarlink" type="url" className="popup__input popup__input_type_placelink" name="avatar" placeholder="Ссылка на картинку" />
                       <span id="error-avatarlink" className="popup__error-message"></span>
                     </label>
             </PopupWithForm>   
