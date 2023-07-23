@@ -3,7 +3,7 @@ import {Header} from './Header.js';
 import {Main} from './Main.js';
 import {Footer} from './Footer.js';
 import { PopupWithForm } from './PopupWithForm.js';
-//import {ImagePopup} from './ImagePopup.js';
+import {ImagePopup} from './ImagePopup.js';
 
 
 function App() { 
@@ -11,6 +11,11 @@ function App() {
   const [isEditAvatarOpen, setIsEditAvatarOpen] = React.useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = React.useState(false);
   const [isAddPlaceOpen, setIsAddPlaceOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
 
   function handleEditAvatarClick() {
       setIsEditAvatarOpen(true);
@@ -28,6 +33,7 @@ function App() {
     setIsEditAvatarOpen(false);
     setIsEditProfileOpen(false);
     setIsAddPlaceOpen(false);
+    setSelectedCard(null);
   }
 
   return (    
@@ -37,6 +43,7 @@ function App() {
              onEditProfile = {handleEditProfileClick}
              onAddPlace = {handleAddPlaceClick}
              onEditAvatar = {handleEditAvatarClick}
+             onCardClick = {handleCardClick}
             />
             <Footer />
             <PopupWithForm name="profile" title="Редактировать профиль" textButton="Сохранить" isOpen={isEditProfileOpen} onClose={closeAllPopups}>
@@ -65,20 +72,8 @@ function App() {
                       <input id="avatarlink" type="url" className="popup__input popup__input_type_placelink" required name="avatar" placeholder="Ссылка на картинку" autocomplete="off"/>
                       <span id="error-avatarlink" className="popup__error-message"></span>
                     </label>
-            </PopupWithForm>     
-
-
-            <section class="popup popup_type_image" aria-label="Просмотр картинки">
-              <div class="popup__image-container">
-                <button class="popup__close" type="button" aria-label="Закрыть"></button>
-                <figure class="popup__figure">
-                  <img  class="popup__image" alt="картинка Карачаевск"/>
-                  <figcaption class="popup__caption"></figcaption>
-                </figure>
-              </div>
-            </section>
-            
-          
+            </PopupWithForm>   
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} />       
       </div>      
   );
 }

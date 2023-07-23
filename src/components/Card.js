@@ -1,7 +1,12 @@
-export function Card({card}) {
+export function Card({card, onCardClick}) {
+    
+    function handleClick() {
+        onCardClick(card);
+      } 
+
     return (
         <li class="element">
-            <img src={card.link} alt={card.name} className="element__image" />
+            <img src={card.link} alt={card.name} onClick={handleClick} className="element__image" />
             <button className="element__delete-button" type="button" aria-label="Удалить"></button>
             <div className="element__container">
                 <h2 className="element__title">{card.name}</h2>

@@ -2,7 +2,7 @@ import React from 'react';
 import {api} from '../utils/Api.js';
 import {Card} from './Card.js';
 
-export function Main({onEditAvatar, onEditProfile, onAddPlace}) { 
+export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) { 
     const [userName, setUserName] = React.useState();
     const [userDescription, setUserDescription] = React.useState();
     const [userAvatar, setUserAvatar] = React.useState();
@@ -12,6 +12,7 @@ export function Main({onEditAvatar, onEditProfile, onAddPlace}) {
         <Card 
             card = {card}
             key = {card.id}
+            onCardClick={onCardClick}
         />
     ));
 
