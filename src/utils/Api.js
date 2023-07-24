@@ -14,30 +14,29 @@ export default class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
+  //универсальный метод запроса с проверкой ответа
+  
+  /*_request(url, options) {
+    return fetch(url, options).then(this._checkRes)
+  }*/
+
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
-      headers: {
-        authorization: this._authorization,
-      },
+      headers: this._headers,
     }).then(this._checkRes);
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
-      headers: {
-        authorization: this._authorization,
-      },
+      headers: this._headers,
     }).then(this._checkRes);
   }
 
   setProfileInfo(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: this._authorization,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -48,10 +47,7 @@ export default class Api {
   addNewCard(data) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
-      headers: {
-        authorization: this._authorization,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -62,37 +58,28 @@ export default class Api {
   deleteCard(id) {
     return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._authorization,
-      },
+      headers: this._headers,
     }).then(this._checkRes);
   }
 
   addLike(id) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: "PUT",
-      headers: {
-        authorization: this._authorization,
-      },
+      headers: this._headers,
     }).then(this._checkRes);
   }
 
   removeLike(id) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: "DELETE",
-      headers: {
-        authorization: this._authorization,
-      },
+      headers: this._headers,
     }).then(this._checkRes);
   }
 
   editNewAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      headers: {
-        authorization: this._authorization,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -104,5 +91,6 @@ export const api = new Api({
   url: "https://mesto.nomoreparties.co/v1/cohort-68",
   headers: {
     authorization: "13586674-c353-49e6-be07-3fb91b47b641",
+    "Content-Type": "application/json",
   },
 });
