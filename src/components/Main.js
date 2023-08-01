@@ -1,43 +1,25 @@
 import React from 'react';
-import {api} from '../utils/Api.js';
-import {Card} from './Card.js';
+//import { api } from '../utils/Api.js';
+import { Card } from './Card.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
-export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) { 
-    const [userName, setUserName] = React.useState("");
+export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, cards}) { 
+    /*const [userName, setUserName] = React.useState("");
     const [userDescription, setUserDescription] = React.useState("");
-    const [userAvatar, setUserAvatar] = React.useState("");
-    const [cards, setCards] = React.useState([]);
+    const [userAvatar, setUserAvatar] = React.useState("");*/
+    /*const [cards, setCards] = React.useState([]);*/
+
+    const userInfo = React.useContext(CurrentUserContext);
 
     const cardsElements = cards.map((card) => (
         <Card 
             card = {card}
-            key = {card.id}
-            onCardClick={onCardClick}
+            key = {card._id}
+            onCardClick = {onCardClick}
+            onCardLike = {onCardLike}
+            onCardDelete = { onCardDelete }
         />
     ));
-
-    React.useEffect(() => {
-        api.getUserInfo()
-            .then((res) => {
-                setUserAvatar(res.avatar);
-                setUserName(res.name);
-                setUserDescription(res.about);
-            })
-            .catch(console.error);
-    
-        api.getInitialCards()
-            .then(res => {
-                const cardsFromApi = res.map(item => ({
-                        name: item.name,
-                        link: item.link,
-                        likes: item.likes,
-                        id: item._id,
-                        ownerId: item.owner._id,
-                    }));
-                setCards(cardsFromApi);
-            })
-            .catch(console.error);
-    }, []);
 
     return (
         <main className="content">
@@ -45,14 +27,14 @@ export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
             <div className="profile__container">
                 <div className="profile__avatar-container">
                 <div className="profile__update-avatar" onClick = {onEditAvatar}></div>
-                <img src={userAvatar} alt="фотография в профиле" className="profile__avatar" name="avatar"/>
+                <img src={userInfo.avatar} alt="фотография в профиле" className="profile__avatar" name="avatar"/>
                 </div>
                 <div className="profile__info">
                 <div className="profile__title-container">
-                    <h1 className="profile__title">{userName}</h1>
+                    <h1 className="profile__title">{userInfo.name}</h1>
                     <button className="profile__edit-button" type="button" aria-label="Редактировать" onClick = {onEditProfile}></button>
                 </div>
-                <p className="profile__subtitle">{userDescription}</p>
+                <p className="profile__subtitle">{userInfo.about}</p>
                 </div>
             </div>
             <button className="profile__add-button profile__add-button-link" type="button" aria-label="Добавить" onClick = {onAddPlace}></button>

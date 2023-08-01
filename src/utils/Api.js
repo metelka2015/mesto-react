@@ -14,8 +14,7 @@ export default class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  //универсальный метод запроса с проверкой ответа
-  
+  //универсальный метод запроса с проверкой ответа  
   _request(url, options) {
     return fetch(url, options).then(this._checkRes)
   }
@@ -58,6 +57,13 @@ export default class Api {
   deleteCard(id) {
     return this._request(`${this._url}/cards/${id}`, {
       method: "DELETE",
+      headers: this._headers,
+    });
+  }
+
+  changeLikeCardStatus(id, isLiked) {
+    return this._request(`${this._url}/cards/${id}/likes`, {
+      method: isLiked ? "PUT" : "DELETE",
       headers: this._headers,
     });
   }
