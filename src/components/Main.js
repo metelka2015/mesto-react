@@ -1,14 +1,8 @@
 import React from 'react';
-//import { api } from '../utils/Api.js';
 import { Card } from './Card.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 export function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, cards}) { 
-    /*const [userName, setUserName] = React.useState("");
-    const [userDescription, setUserDescription] = React.useState("");
-    const [userAvatar, setUserAvatar] = React.useState("");*/
-    /*const [cards, setCards] = React.useState([]);*/
-
     const userInfo = React.useContext(CurrentUserContext);
 
     const cardsElements = cards.map((card) => (
