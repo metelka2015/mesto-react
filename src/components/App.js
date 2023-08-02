@@ -7,6 +7,7 @@ import { ImagePopup } from './ImagePopup.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { api } from '../utils/Api.js';
 import { EditProfilePopup } from './EditProfilePopup.js';
+import { EditAvatarPopup } from './EditAvatarPopup.js';
 
 
 function App() { 
@@ -87,6 +88,15 @@ function App() {
     })
     .catch(console.error);
   }
+
+  function handleUpdateAvatar(data) {
+    api.setUserAvatar({avatar: data})
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
   
 
   return ( 
@@ -115,12 +125,7 @@ function App() {
                   </label>                  
             </PopupWithForm>  
             <PopupWithForm name="delete" title="Вы уверены?" textButton="Да" onClose={closeAllPopups}/>  
-            <PopupWithForm name="avatar" title="Обновить аватар" textButton="Сохранить" isOpen={isEditAvatarOpen} onClose={closeAllPopups}> 
-                    <label className="popup__label">
-                      <input id="avatarlink" type="url" className="popup__input popup__input_type_placelink" name="avatar" placeholder="Ссылка на картинку" />
-                      <span id="error-avatarlink" className="popup__error-message"></span>
-                    </label>
-            </PopupWithForm>   
+            <EditAvatarPopup isOpen={isEditAvatarOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />       
       </div>  
     </CurrentUserContext.Provider>      

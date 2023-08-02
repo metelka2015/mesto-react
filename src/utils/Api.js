@@ -82,7 +82,7 @@ export default class Api {
     });
   }
 
-  editNewAvatar(data) {
+  setUserAvatar(data) {
     return this._request(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
