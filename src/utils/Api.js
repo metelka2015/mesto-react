@@ -32,7 +32,7 @@ export default class Api {
     });
   }
 
-  setProfileInfo(data) {
+  setUserInfo(data) {
     return this._request(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,

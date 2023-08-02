@@ -6,6 +6,7 @@ import { PopupWithForm } from './PopupWithForm.js';
 import { ImagePopup } from './ImagePopup.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { api } from '../utils/Api.js';
+import { EditProfilePopup } from './EditProfilePopup.js';
 
 
 function App() { 
@@ -78,6 +79,16 @@ function App() {
       .catch(console.error);
   }
 
+  function handleUpdateUser(data) {
+    api.setUserInfo(data)
+    .then((res) => {
+      setCurrentUser(res);
+      closeAllPopups();
+    })
+    .catch(console.error);
+  }
+  
+
   return ( 
     <CurrentUserContext.Provider value={currentUser}> 
          <div className="page">            
@@ -92,16 +103,7 @@ function App() {
              cards = {cards}
             />
             <Footer />
-            <PopupWithForm name="profile" title="Редактировать профиль" textButton="Сохранить" isOpen={isEditProfileOpen} onClose={closeAllPopups}>
-                    <label className="popup__label">
-                      <input id="name" className="popup__input popup__input_type_name" name="name" placeholder="Имя"/>
-                      <span id="error-name" className="popup__error-message"></span>
-                    </label>
-                    <label className="popup__label">
-                      <input id="job" className="popup__input popup__input_type_job" name="about" placeholder="О себе"/>
-                      <span id="error-job" className="popup__error-message"></span>
-                    </label>                                                
-            </PopupWithForm>
+            <EditProfilePopup isOpen={isEditProfileOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
             <PopupWithForm name="place" title="Новое место" textButton="Создать" isOpen={isAddPlaceOpen} onClose={closeAllPopups}>            
                   <label className="popup__label">
                     <input id="placename" className="popup__input popup__input_type_placename" name="placename" placeholder="Название" />
