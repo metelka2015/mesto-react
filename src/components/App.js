@@ -8,6 +8,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { api } from '../utils/Api.js';
 import { EditProfilePopup } from './EditProfilePopup.js';
 import { EditAvatarPopup } from './EditAvatarPopup.js';
+import { AddPlacePopup } from './AddPlacePopup.js'; 
 
 
 function App() { 
@@ -97,6 +98,15 @@ function App() {
       })
       .catch(console.error);
   }
+
+  function handleAddPlaceSubmit(data) {
+    api.addNewCard(data)
+    .then((newCard) => {
+      setCards([newCard, ...cards]); 
+      closeAllPopups();
+    })
+    .catch(console.error);
+  }
   
 
   return ( 
@@ -114,17 +124,8 @@ function App() {
             />
             <Footer />
             <EditProfilePopup isOpen={isEditProfileOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-            <PopupWithForm name="place" title="Новое место" textButton="Создать" isOpen={isAddPlaceOpen} onClose={closeAllPopups}>            
-                  <label className="popup__label">
-                    <input id="placename" className="popup__input popup__input_type_placename" name="placename" placeholder="Название" />
-                    <span id="error-placename" className="popup__error-message"></span>
-                  </label>
-                  <label className="popup__label">
-                    <input id="placelink" type="url" className="popup__input popup__input_type_placelink" name="placelink" placeholder="Ссылка на картинку" />
-                    <span id="error-placelink" className="popup__error-message"></span>
-                  </label>                  
-            </PopupWithForm>  
-            <PopupWithForm name="delete" title="Вы уверены?" textButton="Да" onClose={closeAllPopups}/>  
+            <AddPlacePopup isOpen={isAddPlaceOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
+            <PopupWithForm name="delete" title="Вы уверены?" textButton="Да" onClose={closeAllPopups} />  
             <EditAvatarPopup isOpen={isEditAvatarOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />       
       </div>  
