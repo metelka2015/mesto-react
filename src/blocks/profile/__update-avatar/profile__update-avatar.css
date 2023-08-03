@@ -1,6 +1,6 @@
 .profile__update-avatar:hover {
   opacity: 0.8;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
   background-image: url(../../../images/profile-vector.svg);
   background-repeat: no-repeat;
   background-position: 50%;

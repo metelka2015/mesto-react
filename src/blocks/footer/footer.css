@@ -9,10 +9,9 @@
   }
 }
 
-
 @media screen and (max-width: 810px) {
   .footer {
     max-width: 282px;
-    margin: 0  auto 36px;
+    margin: 0 auto 36px;
   }
 }

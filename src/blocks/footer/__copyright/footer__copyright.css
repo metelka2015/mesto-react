@@ -1,6 +1,6 @@
 .footer__copyright {
   max-width: 318px;
-  font-family: 'Inter', 'Arial', sans-serif;
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -11,8 +11,8 @@
 
 @media screen and (max-width: 810px) {
   .footer__copyright {
-  max-width: 282px;
-  font-size: 14px;
-  line-height: 17px;
+    max-width: 282px;
+    font-size: 14px;
+    line-height: 17px;
   }
 }

@@ -14,9 +14,9 @@ export default class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  //универсальный метод запроса с проверкой ответа  
+  //универсальный метод запроса с проверкой ответа
   _request(url, options) {
-    return fetch(url, options).then(this._checkRes)
+    return fetch(url, options).then(this._checkRes);
   }
 
   getUserInfo() {
