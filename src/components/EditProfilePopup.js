@@ -12,9 +12,11 @@ export function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
     // После загрузки текущего пользователя из API
     // его данные будут использованы в управляемых компонентах.
     React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-    }, [currentUser]);
+        if (isOpen) {
+            setName(currentUser.name);
+            setDescription(currentUser.about);
+        }
+        }, [currentUser, isOpen]);
     
     function handleNameChange(e) {
         setName(e.target.value);
@@ -38,11 +40,11 @@ export function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
     return (
         <PopupWithForm name="profile" title="Редактировать профиль" textButton="Сохранить" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
             <label className="popup__label">
-                <input id="name" className="popup__input popup__input_type_name" name="name" placeholder="Имя" value={name} onChange={handleNameChange}/>
+                <input id="name" className="popup__input popup__input_type_name" name="name" placeholder="Имя" value={name || ''} onChange={handleNameChange} required minLength="2" maxLength="30"/>
                 <span id="error-name" className="popup__error-message"></span>
             </label>
             <label className="popup__label">
-                <input id="job" className="popup__input popup__input_type_job" name="about" placeholder="О себе" value={description} onChange={handleDescriptionChange} />
+                <input id="job" className="popup__input popup__input_type_job" name="about" placeholder="О себе" value={description || ''} onChange={handleDescriptionChange} required minLength="2" maxLength="30"/>
                 <span id="error-job" className="popup__error-message"></span>
             </label>                                                
         </PopupWithForm>

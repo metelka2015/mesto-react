@@ -18,7 +18,7 @@ function App() {
   const [isAddPlaceOpen, setIsAddPlaceOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
 
-  const [currentUser, setCurrentUser] = React.useState("");  
+  const [currentUser, setCurrentUser] = React.useState({});  
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {          
@@ -27,9 +27,6 @@ function App() {
           setCards(res);
         })
         .catch(console.error);
-}, []);
-  
-  React.useEffect(() => {
     api.getUserInfo()
       .then((res) => {
         setCurrentUser(res);
