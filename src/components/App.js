@@ -10,6 +10,10 @@ import { EditProfilePopup } from "./EditProfilePopup.js";
 import { EditAvatarPopup } from "./EditAvatarPopup.js";
 import { AddPlacePopup } from "./AddPlacePopup.js";
 import { ConfirmDeletePopup } from "./ConfirmDeletePopup.js";
+import { ProtectedRoute } from "./ProtectedRoute.js";
+import { Login } from "./Login.js";
+import { InfoTooltip } from "./InfoTooltip.js";
+import { Register } from "./Register.js";
 
 function App() {
   const [isEditAvatarOpen, setIsEditAvatarOpen] = React.useState(false);
@@ -17,13 +21,15 @@ function App() {
   const [isAddPlaceOpen, setIsAddPlaceOpen] = React.useState(false);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] =
     React.useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [cardDelete, setCardDelete] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([]);
-  
+  const [cards, setCards] = React.useState([]);  
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [registeredIn, setregisteredIn] = React.useState(false);
+  const [userInfo, setUserInfo] = React.useState("");
 
   React.useEffect(() => {
     api
@@ -56,12 +62,14 @@ function App() {
     setIsAddPlaceOpen(true);
   }
 
+  
   function closeAllPopups() {
     setIsEditAvatarOpen(false);
     setIsEditProfileOpen(false);
     setIsAddPlaceOpen(false);
     setSelectedCard(null);
     setIsConfirmDeletePopupOpen(false);
+    setIsInfoTooltipOpen(false);
   }
 
   function handleCardLike(card) {
@@ -124,10 +132,22 @@ function App() {
     setCardDelete(card);
   }
 
+  function handleLogin() {
+    
+  }
+
+  function handleRegister() {
+
+  }
+
+  function handleSignOut() {
+    
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header loggedIn={loggedIn} userInfo={userInfo} onSignOut={handleSignOut}/>
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
@@ -137,9 +157,10 @@ function App() {
           onCardDelete={handleCardConfirmDelete}
           cards={cards}
         />
+        
         <Routes>
-          <Route path="/sign-up" />
-          <Route path="/sign-in" />
+          <Route path="/sign-up" element={<Register onRegister = {handleRegister}/>} />
+          <Route path="/sign-in" element={<Login onLogin={handleLogin} />}/>
           <Route path="/" 
               element={<ProtectedRoute element={Main}
               onEditProfile={handleEditProfileClick}
@@ -151,11 +172,13 @@ function App() {
               cards={cards} /> 
             } 
           />
-          <Route path="*" element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-up" replace />} />
-
-         
+          <Route path="*" element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-up" replace />} />         
         </Routes>
         <Footer />
+        <InfoTooltip 
+          isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}
+          registeredIn={registeredIn}/>          
         <EditProfilePopup
           isOpen={isEditProfileOpen}
           onClose={closeAllPopups}
