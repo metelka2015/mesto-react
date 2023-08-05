@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Header } from "./Header.js";
 import { Main } from "./Main.js";
 import { Footer } from "./Footer.js";
@@ -21,6 +22,8 @@ function App() {
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     api
@@ -134,6 +137,24 @@ function App() {
           onCardDelete={handleCardConfirmDelete}
           cards={cards}
         />
+        <Routes>
+          <Route path="/sign-up" />
+          <Route path="/sign-in" />
+          <Route path="/" 
+              element={<ProtectedRoute element={Main}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardConfirmDelete}
+              cards={cards} /> 
+            } 
+          />
+          <Route path="*" element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-up" replace />} />
+
+         
+        </Routes>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfileOpen}
