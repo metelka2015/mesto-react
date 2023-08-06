@@ -11,6 +11,8 @@
     color:#A9A9A9;
     text-decoration: none;
     transition: opacity 0.2s linear;
-    margin: 51px 0 46px;
-
+    cursor: pointer;
+    border: none;
+    background-color: inherit;
 }
+

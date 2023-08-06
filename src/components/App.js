@@ -140,8 +140,7 @@ function App() {
         if (res) {
           setIsInfoTooltipOpen(true);
           setRegisteredIn(true);
-          navigate('/sign-in', {replace: true});
-          
+          navigate('/sign-in', {replace: true});          
         }          
       })
       .catch((error) => {
@@ -149,7 +148,7 @@ function App() {
         setRegisteredIn(false);
         console.log(error);
       });      
-  }  
+  }   
 
   function handleLogin(email, password) {
     auth.login(email, password)
@@ -157,8 +156,6 @@ function App() {
         if (res) {
           localStorage.setItem("token", res.token);
           setLoggedIn(true);
-
-          //проверить userEmail UserInfo
           setUserInfo(email, password);
           navigate('/', {replace: true});
         }
@@ -171,7 +168,7 @@ function App() {
   }  
 
   function checkToken() {
-    if (localStorage.getItem("token")) {
+    
       const token = localStorage.getItem("token");
       if (token) {
         auth.checkToken(token)
@@ -180,12 +177,12 @@ function App() {
               setLoggedIn(true);
               navigate('/', {replace: true})              
           }).catch((error) => {
-            //localStorage.removeItem("token");
-            //navigate('/sign-up', {replace: true});
+            localStorage.removeItem("token");
+            navigate('/sign-up', {replace: true});
             console.log(error);
           });
       }
-    }
+    
   }  
 
   function handleSignOut() {
@@ -215,7 +212,8 @@ function App() {
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
               onCardDelete={handleCardConfirmDelete}
-              cards={cards} /> 
+              cards={cards} 
+              loggedIn={loggedIn}/> 
             } 
           />
           <Route path="*" element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-up" replace />} />         

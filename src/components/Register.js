@@ -21,9 +21,6 @@ export function Register({onRegister}) {
             setEmail("");
             setPassword("");
           }
-        //onRegister(email, password);
-       // setEmail("");
-       // setPassword("");
     }
 
     return (
@@ -43,8 +40,7 @@ export function Register({onRegister}) {
                     required
                     value={email || ""}
                     onChange={handleChangeEmail}
-                    //minLength="2"
-                    //maxLength="30"
+                    
                     />
                     <span id="error-email" className="login__error-message"></span>
                 </label>
@@ -58,8 +54,7 @@ export function Register({onRegister}) {
                     value={password || ""}
                     onChange={handleChangePassword}
                     required
-                    //minLength="2"
-                   // maxLength="30"
+                    
                     />
                     <span id="error-password" className="login__error-message"></span>
                 </label>
