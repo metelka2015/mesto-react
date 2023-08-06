@@ -30,7 +30,7 @@ function App() {
   const [cards, setCards] = React.useState([]);  
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [registeredIn, setRegisteredIn] = React.useState(false);
-  const [userEmail, setUserEmail] = React.useState("");
+  const [userInfo, setUserInfo] = React.useState("");
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -76,6 +76,7 @@ function App() {
     setSelectedCard(null);
     setIsConfirmDeletePopupOpen(false);
     setIsInfoTooltipOpen(false);
+    setRegisteredIn(false);
   }
 
   function handleCardLike(card) {
@@ -136,9 +137,12 @@ function App() {
   function handleRegister(email, password) {
     auth.register(email, password)
       .then((res) => {
-        navigate('/sign-in', {replace: true});
-        setIsInfoTooltipOpen(true);
-        setRegisteredIn(true);
+        if (res) {
+          setIsInfoTooltipOpen(true);
+          setRegisteredIn(true);
+          navigate('/sign-in', {replace: true});
+          
+        }          
       })
       .catch((error) => {
         setIsInfoTooltipOpen(true);
@@ -155,7 +159,7 @@ function App() {
           setLoggedIn(true);
 
           //проверить userEmail UserInfo
-          userEmail(email, password);
+          setUserInfo(email, password);
           navigate('/', {replace: true});
         }
       })
@@ -164,7 +168,6 @@ function App() {
         setLoggedIn(false);
         console.log(error);
       });
-      
   }  
 
   function checkToken() {
@@ -172,21 +175,18 @@ function App() {
       const token = localStorage.getItem("token");
       if (token) {
         auth.checkToken(token)
-          .then((res) => {
-            if (res) {
-              setUserEmail(res.data.email);
+          .then((res) => {            
+              setUserInfo(res.data.email);
               setLoggedIn(true);
-              navigate('/', {replace: true})
-            }  
+              navigate('/', {replace: true})              
           }).catch((error) => {
-            localStorage.removeItem("token");
-            navigate('/sign-up', {replace: true});
+            //localStorage.removeItem("token");
+            //navigate('/sign-up', {replace: true});
             console.log(error);
           });
       }
     }
-  }
-  
+  }  
 
   function handleSignOut() {
     localStorage.removeItem("token");
@@ -202,17 +202,8 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn} userEmail={userEmail} onSignOut={handleSignOut}/>
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardConfirmDelete}
-          cards={cards}
-        />
-        
+        <Header loggedIn={loggedIn} userInfo={userInfo} onSignOut={handleSignOut} />
+               
         <Routes>
           <Route path="/sign-up" element={<Register onRegister = {handleRegister}/>} />
           <Route path="/sign-in" element={<Login onLogin={handleLogin} />}/>

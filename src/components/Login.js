@@ -1,11 +1,29 @@
-export function Login({handleLogin}) {
+import React from "react";
 
+export function Login({onLogin}) {
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    function handleChangeEmail(e) {
+        setEmail(e.target.value);
+    }
+
+    function handleChangePassword(e) {
+        setPassword(e.target.value);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        onLogin(email, password);
+        setEmail("");
+        setPassword("");
+    }
 
     return (
         <div className="login__container">
             <form 
                 className="login__form"
-                //onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
             >
                 <h2 className="login__title">{"Вход"}</h2>
                 <label className="login__label">
@@ -16,8 +34,8 @@ export function Login({handleLogin}) {
                     name="email"
                     placeholder="Email"
                     required
-                    //minLength="2"
-                    //maxLength="30"
+                    onChange={handleChangeEmail}
+                    value={email || ""}                    
                     />
                     <span id="error-email" className="login__error-message"></span>
                 </label>
@@ -28,11 +46,9 @@ export function Login({handleLogin}) {
                     className="login__input login__input_type_password"
                     name="password"
                     placeholder="Пароль"
-                    //value={description || ""}
-                    //onChange={handleDescriptionChange}
+                    value={password || ""}
+                    onChange={handleChangePassword}
                     required
-                    //minLength="2"
-                   // maxLength="30"
                     />
                     <span id="error-password" className="login__error-message"></span>
                 </label>

@@ -4,18 +4,14 @@ import fail from "../images/fail.svg";
 
 export function InfoTooltip({isOpen, onClose, registeredIn}) {
     return (
-        <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
-            <div className="popup__container">
-                <form className="popup__form">
-                    <div className="popup__image-container">
-                        <img 
-                            className="popup__image-status"
-                            src={registeredIn ? success : fail}
-                            alt={registeredIn ? "успешно" : "ошибка"}
-                        />
-                        <h2 className="popup__title">{registeredIn ? "Вы успешно зарегистрировались!" : "Что-то пошло не так! Попробуйте ещё раз."}</h2>
-                    </div>
-                </form>
+        <div className={`popup ${isOpen ? "popup_opened" : ""}`}>            
+            <div className="popup__image-container">
+                <img 
+                    className="popup__image-status"
+                    src={registeredIn ? success : fail}
+                    alt={registeredIn ? "успешно" : "ошибка"}
+                />
+                <h2 className="popup__title_info">{registeredIn ? "Вы успешно зарегистрировались!" : "Что-то пошло не так! Попробуйте ещё раз."}</h2>
                 <button
                     className="popup__close"
                     type="button"

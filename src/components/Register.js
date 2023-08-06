@@ -16,9 +16,14 @@ export function Register({onRegister}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        onRegister(email, password);
-        setEmail("");
-        setPassword("");
+        if (password || email) {
+            onRegister(email, password);
+            setEmail("");
+            setPassword("");
+          }
+        //onRegister(email, password);
+       // setEmail("");
+       // setPassword("");
     }
 
     return (
@@ -27,7 +32,7 @@ export function Register({onRegister}) {
                 className="login__form"
                 onSubmit={handleSubmit}
             >
-                <h2 className="login__title">{"Вход"}</h2>
+                <h2 className="login__title">{"Регистрация"}</h2>
                 <label className="login__label">
                     <input
                     id="email"
