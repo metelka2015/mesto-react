@@ -2,15 +2,13 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import logo from "../images/header-logo.svg";
 
-export function Header({loggedIn, userInfo, onSignOut}) {
+export function Header({ loggedIn, userInfo, onSignOut }) {
   return (
     <header className="header">
       <div className="header__container">
-      <img src={logo} alt="логотип проекта Место" className="header__logo" />
+        <img src={logo} alt="логотип проекта Место" className="header__logo" />
         <div className="header__login-container">
-          <h2 className="header__email">
-            {loggedIn ? userInfo : ""}
-          </h2>
+          <h2 className="header__email">{loggedIn ? userInfo : ""}</h2>
           <h2 className="header__state">
             <Routes>
               <Route
@@ -32,10 +30,7 @@ export function Header({loggedIn, userInfo, onSignOut}) {
               <Route
                 path="/"
                 element={
-                  <button
-                    onClick={onSignOut}
-                    className="header__link-button"
-                  >
+                  <button onClick={onSignOut} className="header__link-button">
                     {"Выйти"}
                   </button>
                 }

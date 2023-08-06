@@ -27,7 +27,7 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([]);  
+  const [cards, setCards] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [registeredIn, setRegisteredIn] = React.useState(false);
   const [userInfo, setUserInfo] = React.useState("");
@@ -50,7 +50,7 @@ function App() {
 
   React.useEffect(() => {
     checkToken();
-  }, [])
+  }, []);
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -68,7 +68,6 @@ function App() {
     setIsAddPlaceOpen(true);
   }
 
-  
   function closeAllPopups() {
     setIsEditAvatarOpen(false);
     setIsEditProfileOpen(false);
@@ -135,29 +134,31 @@ function App() {
   }
 
   function handleRegister(email, password) {
-    auth.register(email, password)
+    auth
+      .register(email, password)
       .then((res) => {
         if (res) {
           setIsInfoTooltipOpen(true);
           setRegisteredIn(true);
-          navigate('/sign-in', {replace: true});          
-        }          
+          navigate("/sign-in", { replace: true });
+        }
       })
       .catch((error) => {
         setIsInfoTooltipOpen(true);
         setRegisteredIn(false);
         console.log(error);
-      });      
-  }   
+      });
+  }
 
   function handleLogin(email, password) {
-    auth.login(email, password)
+    auth
+      .login(email, password)
       .then((res) => {
         if (res) {
           localStorage.setItem("token", res.token);
           setLoggedIn(true);
           setUserInfo(email, password);
-          navigate('/', {replace: true});
+          navigate("/", { replace: true });
         }
       })
       .catch((error) => {
@@ -165,30 +166,30 @@ function App() {
         setLoggedIn(false);
         console.log(error);
       });
-  }  
+  }
 
   function checkToken() {
-    
-      const token = localStorage.getItem("token");
-      if (token) {
-        auth.checkToken(token)
-          .then((res) => {            
-              setUserInfo(res.data.email);
-              setLoggedIn(true);
-              navigate('/', {replace: true})              
-          }).catch((error) => {
-            localStorage.removeItem("token");
-            navigate('/sign-up', {replace: true});
-            console.log(error);
-          });
-      }
-    
-  }  
+    const token = localStorage.getItem("token");
+    if (token) {
+      auth
+        .checkToken(token)
+        .then((res) => {
+          setUserInfo(res.data.email);
+          setLoggedIn(true);
+          navigate("/", { replace: true });
+        })
+        .catch((error) => {
+          localStorage.removeItem("token");
+          navigate("/sign-up", { replace: true });
+          console.log(error);
+        });
+    }
+  }
 
   function handleSignOut() {
     localStorage.removeItem("token");
     setLoggedIn(false);
-    navigate ('/sign-in', {replace: true});
+    navigate("/sign-in", { replace: true });
   }
 
   function handleCardConfirmDelete(card) {
@@ -199,30 +200,51 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn} userInfo={userInfo} onSignOut={handleSignOut} />
-               
+        <Header
+          loggedIn={loggedIn}
+          userInfo={userInfo}
+          onSignOut={handleSignOut}
+        />
+
         <Routes>
-          <Route path="/sign-up" element={<Register onRegister = {handleRegister}/>} />
-          <Route path="/sign-in" element={<Login onLogin={handleLogin} />}/>
-          <Route path="/" 
-              element={<ProtectedRoute element={Main}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardConfirmDelete}
-              cards={cards} 
-              loggedIn={loggedIn}/> 
-            } 
+          <Route
+            path="/sign-up"
+            element={<Register onRegister={handleRegister} />}
           />
-          <Route path="*" element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-up" replace />} />         
+          <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                element={Main}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardConfirmDelete}
+                cards={cards}
+                loggedIn={loggedIn}
+              />
+            }
+          />
+          <Route
+            path="*"
+            element={
+              loggedIn ? (
+                <Navigate to="/" replace />
+              ) : (
+                <Navigate to="/sign-up" replace />
+              )
+            }
+          />
         </Routes>
         <Footer />
-        <InfoTooltip 
+        <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
-          registeredIn={registeredIn}/>          
+          registeredIn={registeredIn}
+        />
         <EditProfilePopup
           isOpen={isEditProfileOpen}
           onClose={closeAllPopups}

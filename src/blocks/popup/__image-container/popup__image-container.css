@@ -5,11 +5,11 @@
   color: #000;
   border-radius: 10px;
   position: relative;
-  height: 330px;  
+  height: 330px;
   margin: auto;
   padding: 60px 36px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   box-sizing: border-box;
   align-items: center;
 }
