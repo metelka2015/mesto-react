@@ -6,6 +6,7 @@ import { Footer } from "./Footer.js";
 import { ImagePopup } from "./ImagePopup.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import { api } from "../utils/Api.js";
+import * as auth from "../utils/auth.js";
 import { EditProfilePopup } from "./EditProfilePopup.js";
 import { EditAvatarPopup } from "./EditAvatarPopup.js";
 import { AddPlacePopup } from "./AddPlacePopup.js";
@@ -28,8 +29,9 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);  
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [registeredIn, setregisteredIn] = React.useState(false);
-  const [userInfo, setUserInfo] = React.useState("");
+  const [registeredIn, setRegisteredIn] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState("");
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     api
@@ -45,6 +47,10 @@ function App() {
       })
       .catch(console.error);
   }, []);
+
+  React.useEffect(() => {
+    checkToken();
+  }, [])
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -127,27 +133,76 @@ function App() {
       .catch(console.error);
   }
 
+  function handleRegister(email, password) {
+    auth.register(email, password)
+      .then((res) => {
+        navigate('/sign-in', {replace: true});
+        setIsInfoTooltipOpen(true);
+        setRegisteredIn(true);
+      })
+      .catch((error) => {
+        setIsInfoTooltipOpen(true);
+        setRegisteredIn(false);
+        console.log(error);
+      });      
+  }  
+
+  function handleLogin(email, password) {
+    auth.login(email, password)
+      .then((res) => {
+        if (res) {
+          localStorage.setItem("token", res.token);
+          setLoggedIn(true);
+
+          //проверить userEmail UserInfo
+          userEmail(email, password);
+          navigate('/', {replace: true});
+        }
+      })
+      .catch((error) => {
+        setIsInfoTooltipOpen(true);
+        setLoggedIn(false);
+        console.log(error);
+      });
+      
+  }  
+
+  function checkToken() {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        auth.checkToken(token)
+          .then((res) => {
+            if (res) {
+              setUserEmail(res.data.email);
+              setLoggedIn(true);
+              navigate('/', {replace: true})
+            }  
+          }).catch((error) => {
+            localStorage.removeItem("token");
+            navigate('/sign-up', {replace: true});
+            console.log(error);
+          });
+      }
+    }
+  }
+  
+
+  function handleSignOut() {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    navigate ('/sign-in', {replace: true});
+  }
+
   function handleCardConfirmDelete(card) {
     setIsConfirmDeletePopupOpen(true);
     setCardDelete(card);
   }
 
-  function handleLogin() {
-    
-  }
-
-  function handleRegister() {
-
-  }
-
-  function handleSignOut() {
-    
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header loggedIn={loggedIn} userInfo={userInfo} onSignOut={handleSignOut}/>
+        <Header loggedIn={loggedIn} userEmail={userEmail} onSignOut={handleSignOut}/>
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}

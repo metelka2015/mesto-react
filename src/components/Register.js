@@ -1,11 +1,31 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
-export function Register() {
+export function Register({onRegister}) {
+
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    function handleChangeEmail(e) {
+        setEmail(e.target.value);
+    }
+
+    function handleChangePassword(e) {
+        setPassword(e.target.value);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        onRegister(email, password);
+        setEmail("");
+        setPassword("");
+    }
+
     return (
         <div className="login__container">
             <form 
                 className="login__form"
-                //onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
             >
                 <h2 className="login__title">{"Вход"}</h2>
                 <label className="login__label">
@@ -16,6 +36,8 @@ export function Register() {
                     name="email"
                     placeholder="Email"
                     required
+                    value={email || ""}
+                    onChange={handleChangeEmail}
                     //minLength="2"
                     //maxLength="30"
                     />
@@ -28,8 +50,8 @@ export function Register() {
                     className="login__input login__input_type_password"
                     name="password"
                     placeholder="Пароль"
-                    //value={description || ""}
-                    //onChange={handleDescriptionChange}
+                    value={password || ""}
+                    onChange={handleChangePassword}
                     required
                     //minLength="2"
                    // maxLength="30"
